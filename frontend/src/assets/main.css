@@ -24,3 +24,11 @@ html {
   color: var(--text);
 }
 
+::-webkit-scrollbar {
+  width:2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background:var(--primary)
+}
+
