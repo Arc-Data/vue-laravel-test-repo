@@ -146,7 +146,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background:var(--primary)
+  background:var(--primary-default)
 }
 
 body {
