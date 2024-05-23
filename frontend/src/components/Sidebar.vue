@@ -1,7 +1,7 @@
 <template>
     <div class="hidden md:flex flex-col font-body h-screen border-r border-slate-800 max-w-[280px] w-full px-8 py-10">
         <div class="flex items-center justify-between">
-            <h1 class="text-lg font-bold font-heading text-primary-default">Categories</h1>
+            <h3 class="text-lg font-bold font-heading text-primary-default">Categories</h3>
         </div>
         <div class="flex flex-col gap-2 px-2 mt-8 overflow-y-auto text-sm max-h-[500px]">
             <div
@@ -20,6 +20,7 @@
 <script>
 import { FwbToggle } from 'flowbite-vue';
 import { useDark, useToggle } from '@vueuse/core';
+import { ref } from 'vue';
 
 export default {
     
@@ -44,7 +45,7 @@ export default {
         return {
             isDark,
             toggleDark,
-            handleClick
+            handleClick,
         }
     }
 }
