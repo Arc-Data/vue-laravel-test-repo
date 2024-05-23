@@ -3,11 +3,11 @@
 		<Sidebar 
 			:categories="categories" 
 			@addCategory="addCategory"
-			@categorySelected="selectCategoryName"/>
+			@categorySelected="selectCategory"/>
 		<div class="flex-1 px-4 py-20 md:px-20">
 			<div class="flex justify-between">
 				<h1 v-if="!isEditingCategoryName" class="text-4xl font-bold font-heading" @click="toggleEditingCategoryName">
-					{{ selectedCategoryName }}
+					{{ selectedCategory.categoryName }}
 				</h1>
 				<input v-else 
 					type="text" 
@@ -52,16 +52,14 @@
 <script>
 import { computed, nextTick, reactive, ref } from 'vue';
 import Sidebar from './components/Sidebar.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
 	name: 'App',
 	components: {
 		Sidebar,
-		FontAwesomeIcon,
 	},
 	setup() {
-		const selectedCategoryName = ref('Home');
 		const newCategoryName = ref('');
 		const isEditingCategoryName = ref(false);
 		const editIndex = ref(null);
@@ -69,45 +67,52 @@ export default {
 		const categories = reactive(
 			[
 				{
+					id: uuidv4(),
 					categoryName: "Home",
 					data: []
 				},
 				{ 
+					id: uuidv4(),
 					categoryName: "OJT",
 					data: [
 						{
+						id: uuidv4(),
 						content: "Finish Vue Project",
 						done: false,
 						},
 						{
+						id: uuidv4(),
 						content: "Admin and User model separation",
 						done: true,
 						},	
 					],
 				},
 				{ 
-				categoryName: "WriteUps",
-				data: [
-					{
-					content: "Settings Layout",
-					done: false,
-					},
-					{
-					content: "List of blocked users",
-					done: false,
-					},	
-				],
+					id: uuidv4(),
+					categoryName: "WriteUps",
+					data: [
+						{
+						id: uuidv4(),
+						content: "Settings Layout",
+						done: false,
+						},
+						{
+						id: uuidv4(),
+						content: "List of blocked users",
+						done: false,
+						},	
+					],
 				}
 			]
 		);
+		const selectedCategory = ref(categories.find(category => category.categoryName === 'Home'));
 
-		const selectCategoryName = (categoryName) => {
-			selectedCategoryName.value = categoryName;
+		const selectCategory = (id) => {
+			selectedCategory.value = categories.find(category => category.id === id);
 		};
 
 		const selectedCategoryTasks = computed(() => {
-			const category = categories.find(category => category.categoryName == selectedCategoryName.value);
-			return category ? category.data : [];
+			return selectedCategory.value.data;
 		});
 
 		const addCategory = (category) => {
@@ -115,18 +120,13 @@ export default {
 		}
 		
 		const addTask = () => {
-			const category = categories.find(category => category.categoryName === selectedCategoryName.value);
-			category.data.push({
+			selectedCategory.value.data.push({
+				id: uuidv4(),
 				content: 'New Content',
 				done: false,
 			});
-			nextTick(() => {
-				const lastIndex = category.data.length - 1;
-				editIndex.value = lastIndex;
-				const input = this.$refs.editInput[lastIndex];
-				input.focus();
-			});
 		};
+
 
 		const saveTask = (index) => {
 			if (selectedCategoryTasks.value[index].content.trim() === '') {
@@ -136,25 +136,22 @@ export default {
 		};
 
 		const deleteTask = (index) => {
-			const category = categories.find(category => category.categoryName === selectedCategoryName.value);
-			if (category) {
-				category.data.splice(index, 1);
-			}
+			selectedCategory.value.data.splice(index, 1);
 		};
 
 		const toggleEditingCategoryName = () => {
 			isEditingCategoryName.value = !isEditingCategoryName.value;
 			if (isEditingCategoryName.value) {
-				newCategoryName.value = selectedCategoryName.value;
+				newCategoryName.value = selectedCategory.value;
 			}
 		};
 
 		const saveCategoryName = () => {
 			if (newCategoryName.value.trim() !== '') {
-				const category = categories.find(category => category.categoryName === selectedCategoryName.value);
+				const category = categories.find(category => category.categoryName === selectedCategory.value);
 				if (category) {
 					category.categoryName = newCategoryName.value;
-					selectedCategoryName.value = newCategoryName.value;
+					selectedCategory.value = newCategoryName.value;
 				}
 			}
 			isEditingCategoryName.value = false;
@@ -162,8 +159,8 @@ export default {
 
 		return {
 			categories,
-			selectedCategoryName,
-			selectCategoryName,
+			selectedCategory,
+			selectCategory,
 			selectedCategoryTasks,
 			addTask,
 			editIndex,

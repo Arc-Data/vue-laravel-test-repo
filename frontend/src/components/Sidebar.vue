@@ -11,8 +11,8 @@
         <div class="flex flex-col gap-2 px-2 mt-8 overflow-y-auto text-sm max-h-[500px]">
             <div
                 v-for="category in categories"
-                :key="category.categoryName"
-                @click="handleClick(category.categoryName)"
+                :key="category.id"
+                @click="handleClick(category.id)"
                 class="px-2 py-2 rounded hover:border-primary hover:cursor-pointer hover:bg-primary-default hover:text-background-default"
             >
                 {{ category.categoryName }}
@@ -25,6 +25,7 @@
 <script>
 import { FwbToggle } from 'flowbite-vue';
 import { useDark, useToggle } from '@vueuse/core';
+import { v4 as uuidv4} from 'uuid'
 
 export default {
     
@@ -42,12 +43,13 @@ export default {
         const isDark = useDark()
         const toggleDark = useToggle(useDark)
 
-        const handleClick = (categoryName) => {
-            emit('categorySelected', categoryName)
+        const handleClick = (id) => {
+            emit('categorySelected', id)
         }
 
         const handleAddCategory = () => {
             emit('addCategory', {
+                id: uuidv4(),
                 categoryName: 'New Category',
                 data: [],
             })
