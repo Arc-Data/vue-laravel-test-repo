@@ -1,6 +1,9 @@
 <template>
 	<div class="flex min-h-screen">
-		<Sidebar :categories="categories" @categorySelected="selectCategoryName"/>
+		<Sidebar 
+			:categories="categories" 
+			@addCategory="addCategory"
+			@categorySelected="selectCategoryName"/>
 		<div class="flex-1 px-4 py-20 md:px-20">
 			<div class="flex justify-between">
 				<h1 v-if="!isEditingCategoryName" class="text-4xl font-bold font-heading" @click="toggleEditingCategoryName">
@@ -106,6 +109,10 @@ export default {
 			const category = categories.find(category => category.categoryName == selectedCategoryName.value);
 			return category ? category.data : [];
 		});
+
+		const addCategory = (category) => {
+			categories.push(category)
+		}
 		
 		const addTask = () => {
 			const category = categories.find(category => category.categoryName === selectedCategoryName.value);
@@ -166,6 +173,7 @@ export default {
 			newCategoryName,
 			toggleEditingCategoryName,
 			saveCategoryName,
+			addCategory,
 		};
 	},
 }
