@@ -3,7 +3,9 @@
 		<Sidebar 
 			:categories="categories" 
 			@addCategory="addCategory"
-			@categorySelected="selectCategory"/>
+			@categorySelected="selectCategory"
+			@deleteCategory="deleteCategory"
+			/>
 		<div class="flex-1 px-4 py-20 md:px-20">
 			<div class="flex justify-between">
 				<h1 v-if="!isEditingCategoryName" class="text-4xl font-bold font-heading" @click="toggleEditingCategoryName">
@@ -146,6 +148,16 @@ export default {
 			}
 		};
 
+		const deleteCategory = (id) => {
+			const index = categories.findIndex(category => category.id === id);
+			if (index !== -1) {
+				categories.splice(index, 1);
+				if (selectedCategory.value.id === id) {
+				selectedCategory.value = categories.length > 0 ? categories[0] : null;
+				}
+			}
+		};
+
 		const saveCategoryName = () => {
 			if (newCategoryName.value.trim() !== '') {
 				const category = categories.find(category => category.categoryName === selectedCategory.value);
@@ -171,6 +183,7 @@ export default {
 			toggleEditingCategoryName,
 			saveCategoryName,
 			addCategory,
+			deleteCategory,
 		};
 	},
 }

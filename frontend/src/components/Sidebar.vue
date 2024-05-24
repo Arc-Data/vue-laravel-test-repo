@@ -12,10 +12,13 @@
             <div
                 v-for="category in categories"
                 :key="category.id"
+                @mouseover="hoverIndex = category.id"
+                @mouseleave="hoverIndex = null"
                 @click="handleClick(category.id)"
-                class="px-2 py-2 rounded hover:border-primary hover:cursor-pointer hover:bg-primary-default hover:text-background-default"
+                class="flex items-center justify-between px-2 py-2 rounded hover:border-primary hover:cursor-pointer hover:bg-primary-default hover:text-background-default"
             >
-                {{ category.categoryName }}
+                <p>{{ category.categoryName }}</p>
+                <font-awesome-icon icon="trash" v-if="hoverIndex == category.id && category.categoryName !== 'Home' " @click.stop="handleDeleteCategory(category.id)"></font-awesome-icon>
             </div>
         </div>
         <fwb-toggle v-model="isDark" label="Toggle Dark Mode" class="mt-auto"/>
@@ -26,6 +29,7 @@
 import { FwbToggle } from 'flowbite-vue';
 import { useDark, useToggle } from '@vueuse/core';
 import { v4 as uuidv4} from 'uuid'
+import { ref } from 'vue';
 
 export default {
     
@@ -40,11 +44,16 @@ export default {
         },
     },
     setup(props, { emit }) {
+        const hoverIndex = ref(null)
         const isDark = useDark()
         const toggleDark = useToggle(useDark)
 
         const handleClick = (id) => {
             emit('categorySelected', id)
+        }
+
+        const handleDeleteCategory = (id) => {
+            emit('deleteCategory', id)
         }
 
         const handleAddCategory = () => {
@@ -60,6 +69,8 @@ export default {
             toggleDark,
             handleClick,
             handleAddCategory,
+            handleDeleteCategory,
+            hoverIndex,
         }
     }
 }
