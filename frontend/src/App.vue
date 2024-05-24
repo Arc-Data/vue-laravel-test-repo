@@ -6,7 +6,7 @@
 			@categorySelected="selectCategory"
 			@deleteCategory="deleteCategory"
 			/>
-		<div class="flex-1 px-4 py-20 md:px-20">
+		<div class="container flex-1 px-4 py-20  md:px-20">
 			<div class="flex justify-between">
 				<h1 v-if="!isEditingCategoryName" class="text-4xl font-bold font-heading" @click="toggleEditingCategoryName">
 					{{ selectedCategory.categoryName }}
@@ -144,7 +144,7 @@ export default {
 		const toggleEditingCategoryName = () => {
 			isEditingCategoryName.value = !isEditingCategoryName.value;
 			if (isEditingCategoryName.value) {
-				newCategoryName.value = selectedCategory.value;
+				newCategoryName.value = selectedCategory.value.categoryName;
 			}
 		};
 
@@ -160,10 +160,10 @@ export default {
 
 		const saveCategoryName = () => {
 			if (newCategoryName.value.trim() !== '') {
-				const category = categories.find(category => category.categoryName === selectedCategory.value);
+				const category = categories.find(category => category.id === selectedCategory.value.id);
 				if (category) {
 					category.categoryName = newCategoryName.value;
-					selectedCategory.value = newCategoryName.value;
+					selectedCategory.value.categoryName = newCategoryName.value;
 				}
 			}
 			isEditingCategoryName.value = false;
