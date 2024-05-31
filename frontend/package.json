@@ -18,7 +18,8 @@
     "@vueuse/core": "^10.9.0",
     "flowbite-vue": "^0.1.4",
     "uuid": "^9.0.1",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
