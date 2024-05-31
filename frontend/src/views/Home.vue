@@ -62,8 +62,6 @@ export default {
 		Sidebar,
 	},
 	setup() {
-
-		console.log("I am here")
 		const newCategoryName = ref('');
 		const isEditingCategoryName = ref(false);
 		const editIndex = ref(null);
