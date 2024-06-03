@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Services\Tokens\CustomAccessToken;
 use Carbon\Carbon;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -23,6 +24,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Passport::useAccessTokenEntity(CustomAccessToken::class);
+        Passport::loadKeysFrom(storage_path());
         Passport::tokensExpireIn(Carbon::now()->addMinutes(15));
         Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(20));
     }
