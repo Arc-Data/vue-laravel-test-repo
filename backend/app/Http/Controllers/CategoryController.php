@@ -40,7 +40,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $category->load('tasks');
+        return CategoryResource::make($category);
     }
 
     /**
