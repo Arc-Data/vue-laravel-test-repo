@@ -1,6 +1,6 @@
 <template>
     <div class="grid w-full h-screen max-w-sm mx-auto place-items-center">
-        <form @submit.prevent="login" class="w-full px-8 py-8 shadow-md bg-background-default text-text-default">
+        <form @submit.prevent="login" method="POST" class="w-full px-8 py-8 shadow-md bg-background-default text-text-default">
             <h1 class="mb-8 text-2xl font-bold text-center text-primary-default">Login</h1>
             <div v-if="error" class="mb-5 text-sm text-center text-red-500">{{ error }}</div>
             <div class="mb-5">
