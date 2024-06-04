@@ -60,7 +60,9 @@ export default {
                     error.value = err.response.data.error
                 }
             }
-            disabled.value = false
+            finally {
+                disabled.value = false
+            }
         }
 
         return {

@@ -30,7 +30,6 @@ class AuthController extends Controller
 
     public function register(RegistrationRequest $request) 
     {
-        Log::info("Hello");
         $validatedData = $request->validated();
 
         $user = User::create([
@@ -42,7 +41,6 @@ class AuthController extends Controller
         $token = $user->createToken('Personal Access Token')->accessToken;
 
         return response()->json([
-            'user' => $user,
             'token' => $token,
         ], 201);
     }

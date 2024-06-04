@@ -1,6 +1,6 @@
 <template>
     <div class="grid w-full h-screen max-w-sm mx-auto place-items-center">
-        <form @submit.prevent="login" method="POST" class="w-full px-8 py-8 shadow-md bg-background-default text-text-default">
+        <form @submit.prevent="register" method="POST" class="w-full px-8 py-8 shadow-md bg-background-default text-text-default">
             <h1 class="mb-8 text-2xl font-bold text-center text-primary-default">Sign Up</h1>
             <!-- <div v-if="error" class="mb-5 text-sm text-center text-red-500">{{ error }}</div> -->
             <div class="mb-5">
@@ -39,7 +39,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+import { reactive, ref } from 'vue';
 
 export default {
     name: "Register",
@@ -51,11 +52,22 @@ export default {
             password_confirmation: '' 
         }
 
-        const errors = ref('')
-        const disabled = ref('')
+        const errors = reactive()
+        const disabled = ref(false)
 
-        const register = () => {
-
+        const register = async () => {
+            console.log("Hello?")
+            disabled.value = true
+            try {
+                const userStore = useUserStore()
+                await userStore.register(data)
+            }
+            catch(err) {
+                console.log(err)                
+            }
+            finally {
+                disabled.value = false
+            }
         }
 
         return {

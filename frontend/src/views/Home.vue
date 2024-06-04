@@ -55,6 +55,7 @@
 import { computed, nextTick, reactive, ref } from 'vue';
 import Sidebar from '@/components/Sidebar.vue';
 import { v4 as uuidv4 } from 'uuid'
+import { useUserStore } from '@/stores/userStore';
 
 export default {
 	name: 'App',
@@ -65,6 +66,9 @@ export default {
 		const newCategoryName = ref('');
 		const isEditingCategoryName = ref(false);
 		const editIndex = ref(null);
+
+		const userStore = useUserStore()
+		console.log(userStore.user)
 
 		const categories = reactive(
 			[
